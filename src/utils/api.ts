@@ -1,6 +1,10 @@
 import axios, { AxiosResponse } from "axios";
-import { BadRequest, ErrorResponse, LoginRequestBody, UserProfile } from "../types";
-
+import {
+  BadRequest,
+  ErrorResponse,
+  LoginRequestBody,
+  UserProfile,
+} from "../types";
 
 export const login = async (
   body: LoginRequestBody
@@ -11,13 +15,22 @@ export const login = async (
     }>
   | AxiosResponse<BadRequest>
 > => {
+
   try {
     const response = await axios.post(
       "https://api.homologation.cliqdrive.com.br/auth/login/",
-      body
-    );
+      body,
+      {
+        headers: {
+          Accept: "application/json;version=v1_web",
+          "Content-Type": "application/json"
+        }
+      }
+    ); 
+
     return response;
   } catch (error: any) {
+    console.log(error.response)
     return error.response;
   }
 };
