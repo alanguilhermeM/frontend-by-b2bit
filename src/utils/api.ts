@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import {
   BadRequest,
-  ErrorResponse,
+  // ErrorResponse,
   LoginRequestBody,
+  TUser,
   UserProfile,
 } from "../types";
 
@@ -26,7 +27,11 @@ export const login = async (
           "Content-Type": "application/json"
         }
       }
-    ); 
+    );
+
+    const tokens = JSON.stringify(response.data.tokens)
+
+    localStorage.setItem('tokens', tokens)
 
     return response;
   } catch (error: any) {
@@ -37,7 +42,7 @@ export const login = async (
 
 export const getProfile = async (
   accessToken: string
-): Promise<AxiosResponse<UserProfile> | AxiosResponse<ErrorResponse>> => {
+): Promise<AxiosResponse<TUser>> => {
   try {
     const response = await axios.get(
       "https://api.homologation.cliqdrive.com.br/auth/profile/",
